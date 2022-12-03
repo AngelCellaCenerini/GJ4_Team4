@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44672155, g: 0.49657613, b: 0.57490367, a: 1}
+  m_IndirectSpecularColor: {r: 0.44672096, g: 0.49657553, b: 0.5749025, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -321,7 +321,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 218052782}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -616,6 +616,7 @@ GameObject:
   - component: {fileID: 368822840}
   - component: {fileID: 368822844}
   - component: {fileID: 368822845}
+  - component: {fileID: 368822846}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -654,10 +655,6 @@ MonoBehaviour:
     m_ActionName: CharacterControls/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 37bfd8b0-c48b-468e-8a1a-e13617e84e35
-    m_ActionName: CharacterControls/Run[/Keyboard/shift]
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: 2469951e-750c-4fdc-9a7b-2caa4df166b7
     m_ActionName: CharacterControls/Interact[/Keyboard/enter]
   m_NeverAutoSwitchControlSchemes: 0
@@ -687,7 +684,7 @@ MonoBehaviour:
   startingTxt: {fileID: 0}
   blizzardTxt: {fileID: 265462404}
   shovelTxt: {fileID: 0}
-  audio: {fileID: 1261387241}
+  audio: {fileID: 368822846}
   shovelingSFX: {fileID: 8300000, guid: a7b1f3e945ef020479e17ebc96451d2e, type: 3}
   tune1SFX: {fileID: 8300000, guid: 82e25c2f307749d42a046d2791f8d10d, type: 3}
   tune2SFX: {fileID: 8300000, guid: 9a550858b6ea0b54cb2eb088674b3397, type: 3}
@@ -768,6 +765,102 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 368822838}
   m_Enabled: 1
+--- !u!82 &368822846
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 368822838}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &462378139
 GameObject:
   m_ObjectHideFlags: 0

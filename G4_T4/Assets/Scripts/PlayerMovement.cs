@@ -16,7 +16,6 @@ public class PlayerMovement : MonoBehaviour
     Animator animator;
 
     int isWalkingHash;
-    int isRunningHash;
 
     // Movement
     Vector2 currentMovementInput;
@@ -24,12 +23,10 @@ public class PlayerMovement : MonoBehaviour
     Vector3 currentRunMovement;
     // States
     bool isMovementPressed;
-    bool isRunPressed;
     bool isInteractPressed;
     string interacting = "none";
     // Multipliers
     float walkSpeed = 5.0f;
-    float runMultiplier = 3.0f;
     float rotationFractorPerFrame = 1.0f;
     float initialJumpVelocity;
     // Rotation
@@ -66,6 +63,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] GameObject shovelTxt;
 
     //sounds
+    private bool isPlaying = false;
     public AudioSource audio;
     public AudioClip shovelingSFX;
     public AudioClip tune1SFX;
@@ -96,9 +94,6 @@ public class PlayerMovement : MonoBehaviour
         // Walk
         playerInput.CharacterControls.Move.performed += onMovementInput;
         playerInput.CharacterControls.Move.canceled += onMovementInput;
-        // // Run
-        playerInput.CharacterControls.Run.performed += onRun;
-        playerInput.CharacterControls.Run.canceled += onRun;
         // Interact
         playerInput.CharacterControls.Interact.started += onInteract;
         playerInput.CharacterControls.Interact.canceled += onInteract;
@@ -144,14 +139,14 @@ public class PlayerMovement : MonoBehaviour
         currentMovement.x = currentMovementInput.x * walkSpeed;
         currentMovement.z = currentMovementInput.y * walkSpeed;
         // Run
-        currentRunMovement.x = -currentMovementInput.x * runMultiplier;
-        currentRunMovement.z = -currentMovementInput.y * runMultiplier;
+        // currentRunMovement.x = -currentMovementInput.x * runMultiplier;
+        // currentRunMovement.z = -currentMovementInput.y * runMultiplier;
         // Check if moving
         isMovementPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0;
         //------ SEARCH: Walking area, footstep sounds?
         if (isMovementPressed) { 
-        audio.clip = footstepSFX;
-        audio.Play();
+            audio.clip = footstepSFX;
+            audio.Play();
         }
         else
         {
@@ -159,15 +154,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void onRun(InputAction.CallbackContext context)
-    {
-        isRunPressed = context.ReadValueAsButton();
-    }
-
     void onInteract(InputAction.CallbackContext context)
     {
         isInteractPressed = context.ReadValueAsButton();
-        //------ SEARCH: interact area, sound cue for interaction
   
     }
 
@@ -205,15 +194,7 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         // Move
-        // Check if running
-        if (isRunPressed)
-        {
-            characterController.Move(currentRunMovement * Time.deltaTime);
-        }
-        else
-        {
-            characterController.Move(currentMovement * Time.deltaTime * 1.6f);
-        }
+        characterController.Move(currentMovement * Time.deltaTime * 1.6f);
 
         // Animate
         //handleAnimation();
