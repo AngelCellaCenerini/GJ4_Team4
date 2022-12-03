@@ -65,6 +65,21 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] GameObject blizzardTxt;
     [SerializeField] GameObject shovelTxt;
 
+    //sounds
+    public AudioSource audio;
+    public AudioClip shovelingSFX;
+    public AudioClip tune1SFX;
+    public AudioClip tune2SFX;
+    public AudioClip footstepSFX;
+    public AudioClip footstepSlowSFX;
+
+    public AudioClip grabShovelSFX;
+    public AudioClip grabMusicBoxSFX;
+    public AudioClip dropItemSFX;
+
+    public AudioClip bellRingingSFX;
+    public AudioClip blizzardSFX;
+
     void Awake()
     {
         // Reference
@@ -95,6 +110,9 @@ public class PlayerMovement : MonoBehaviour
         healthbar.fillAmount = snmMaxHealth;
 
         //------ SEARCH: when the game starts
+
+        //Audio Resource
+        audio = GetComponent<AudioSource>();
     }
 
     void handleRotation()
@@ -131,6 +149,14 @@ public class PlayerMovement : MonoBehaviour
         // Check if moving
         isMovementPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0;
         //------ SEARCH: Walking area, footstep sounds?
+        if (isMovementPressed) { 
+        audio.clip = footstepSFX;
+        audio.Play();
+        }
+        else
+        {
+            audio.Stop();
+        }
     }
 
     void onRun(InputAction.CallbackContext context)
@@ -142,6 +168,7 @@ public class PlayerMovement : MonoBehaviour
     {
         isInteractPressed = context.ReadValueAsButton();
         //------ SEARCH: interact area, sound cue for interaction
+  
     }
 
     void handleAnimation() {
@@ -222,9 +249,10 @@ public class PlayerMovement : MonoBehaviour
         if(musicPlaying){
             walkSpeed = 0.0f;
         } else if(blizzard) {
-            walkSpeed = 1.5f;
+            walkSpeed = 6.5f;
         } else {
-            walkSpeed = 5.0f;
+            walkSpeed = 10.0f;
+            //+5
         }
 
         healthbar.fillAmount = snmCurrentHealth / 100;
@@ -280,6 +308,9 @@ public class PlayerMovement : MonoBehaviour
                     snowLvl -= 1;
                     //text stuff
                     isInteractPressed = false;
+                    audio.clip = shovelingSFX;
+                    audio.Play();
+                    //AudioSource.PlayOneShot(shoveling, 1f);
                 }
                 if(shovelGrabbed == false && musicPlaying == false && isInteractPressed){
                     //------ SEARCH: singing
@@ -297,6 +328,8 @@ public class PlayerMovement : MonoBehaviour
                     } else if(!shovelGrabbed){
                         shovel.SetActive(true);
                         gameObject.transform.position = new Vector3(-17f, 1.5f, 15);
+                        audio.clip = grabShovelSFX;
+                        audio.Play();
                     }
                     shovelBuffer = true;
                 } else if(musicGrabbed){
