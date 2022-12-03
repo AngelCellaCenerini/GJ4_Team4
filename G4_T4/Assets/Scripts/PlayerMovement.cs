@@ -47,10 +47,15 @@ public class PlayerMovement : MonoBehaviour
     public GameObject shovel;
     private bool shovelBuffer = false;
 
+    //music box
+    private bool musicGrabbed = false;
+    public GameObject musicBox;
+    private bool musicBuffer = false;
+    private bool musicPlaying = false;
+
     //snowman
     private float snmCurrentHealth = 100;
     private float snmMaxHealth = 100;
-    private bool singing = false;
     public Image healthbar;
 
     //UI variables
@@ -214,7 +219,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //stop moving when singing
-        if(singing){
+        if(musicPlaying){
             walkSpeed = 0.0f;
         } else if(blizzard) {
             walkSpeed = 1.5f;
@@ -245,9 +250,10 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("in");
         switch(target.gameObject.tag){
             case "snowman": interacting = "snowman";
-
             break;
             case "shovel": interacting = "shovel";
+            break;
+            case "musicbox": interacting = "musicbox";
             break;
         }
     }
@@ -260,20 +266,22 @@ public class PlayerMovement : MonoBehaviour
             case "shovel": interacting = "none";
                 shovelBuffer = false;
             break;
+            case "musicbox": interacting = "none";
+                musicBuffer = false;
+            break;
         }
     }
 
     void collisionInteraction(){
         switch(interacting){
             case "snowman": 
-                Debug.Log(":D");
                 if(shovelGrabbed == true && snowLvl >= 1 && isInteractPressed){
                     //------ SEARCH: shoveling
                     snowLvl -= 1;
                     //text stuff
                     isInteractPressed = false;
                 }
-                if(shovelGrabbed == false && singing == false && isInteractPressed){
+                if(shovelGrabbed == false && musicPlaying == false && isInteractPressed){
                     //------ SEARCH: singing
                     snmCurrentHealth += 10;
                     StartCoroutine(Singing(3.0f));
@@ -282,7 +290,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             break;
             case "shovel": 
-                if(!shovelBuffer){
+                if(!shovelBuffer && !musicGrabbed){
                     shovelGrabbed = !shovelGrabbed;
                     if(shovelGrabbed){
                         shovel.SetActive(false);
@@ -291,6 +299,22 @@ public class PlayerMovement : MonoBehaviour
                         gameObject.transform.position = new Vector3(-17f, 1.5f, 15);
                     }
                     shovelBuffer = true;
+                } else if(musicGrabbed){
+                    Debug.Log("Can't hold more then 1 thing");
+                }
+            break;
+            case "musicbox": 
+                if(!musicBuffer && !shovelGrabbed){
+                    musicGrabbed = !musicGrabbed;
+                    if(musicGrabbed){
+                        musicBox.SetActive(false);
+                    } else if(!musicGrabbed){
+                        musicBox.SetActive(true);
+                        gameObject.transform.position = new Vector3(-17f, 1.5f, 15);
+                    }
+                    musicBuffer = true;
+                } else if(shovelGrabbed){
+                    Debug.Log("Can't hold more then 1 thing");
                 }
             break;
         }
@@ -348,8 +372,8 @@ public class PlayerMovement : MonoBehaviour
     // Singing
     IEnumerator Singing(float time)
     {
-        singing = true;
+        musicPlaying = true;
         yield return new WaitForSeconds(time);
-        singing = false;
+        musicPlaying = false;
     }
 }
