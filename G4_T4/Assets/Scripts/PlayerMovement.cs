@@ -242,13 +242,17 @@ public class PlayerMovement : MonoBehaviour
 
         healthbar.fillAmount = snmCurrentHealth / 100;
 
-        if(isInteractPressed && interacting == "snowman"){
-            float timer = 0;
-            timer += Time.deltaTime;
-            if(timer >= 100){
-                StartCoroutine(Interaction(10.0f));
-            }
-        } else if(isInteractPressed && interacting != "none"){
+        // if(isInteractPressed && interacting == "snowman"){
+        //     float timer = 0;
+        //     timer += Time.deltaTime;
+        //     if(timer >= 100){
+        //         StartCoroutine(Interaction(10.0f));
+        //     }
+        // } else if(isInteractPressed && interacting != "none"){
+        //     StartCoroutine(Interaction(10.0f));
+        // }
+
+        if(isInteractPressed && interacting != "none"){
             StartCoroutine(Interaction(10.0f));
         }
 
@@ -273,7 +277,6 @@ public class PlayerMovement : MonoBehaviour
 
     //check for any collisions
     void OnTriggerEnter(Collider target){
-        Debug.Log("in");
         switch(target.gameObject.tag){
             case "snowman": interacting = "snowman";
             break;
