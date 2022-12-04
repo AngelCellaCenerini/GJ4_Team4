@@ -66,6 +66,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isPlaying = false;
     private bool songSwitch = false;
     public AudioSource audio;
+    public AudioSource audio2;
     public AudioClip shovelingSFX;
     public AudioClip tune1SFX;
     public AudioClip tune2SFX;
