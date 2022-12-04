@@ -67,6 +67,7 @@ public class PlayerMovement : MonoBehaviour
     private bool songSwitch = false;
     public AudioSource audio;
     public AudioSource audio2;
+    public GameObject audioSource2;
     public AudioClip shovelingSFX;
     public AudioClip tune1SFX;
     public AudioClip tune2SFX;
@@ -109,7 +110,7 @@ public class PlayerMovement : MonoBehaviour
 
         //Audio Resource
         audio = GetComponent<AudioSource>();
-        audio2 = GetComponent<AudioSource>();
+        audio2 = audioSource2.GetComponent<AudioSource>();
     }
 
     void handleRotation()
@@ -146,13 +147,13 @@ public class PlayerMovement : MonoBehaviour
         // Check if moving
         isMovementPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0;
         if (isMovementPressed && !musicPlaying) { 
-            audio2.clip = footstepSFX;
-            audio2.volume = 0.1f;
-            audio2.Play();
+            audio.clip = footstepSFX;
+            audio.volume = 0.1f;
+            audio.Play();
         }
         else
         {
-            audio2.Stop();
+            audio.Stop();
         }
     }
 
@@ -232,7 +233,7 @@ public class PlayerMovement : MonoBehaviour
         if(musicPlaying){
             walkSpeed = 0.0f;
         } else if(blizzard) {
-            walkSpeed = 6.5f;
+            walkSpeed = 4f;
         } else {
             walkSpeed = 10.0f;
             //+5
@@ -390,7 +391,7 @@ public class PlayerMovement : MonoBehaviour
         blizzardTxt.SetActive(true);
 
         yield return new WaitForSeconds(6.0f);
-        //remove warning text
+        //blizzard start
         blizzardTxt.SetActive(false);
         blizzard = true;
         //start snow
@@ -398,8 +399,8 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(AddSnow(3.0f));
         }
         yield return new WaitForSeconds(20.0f);
+        //stop blizzard
         blizzard = false;
-        //reset blizzard after 12 sec
         StartCoroutine(TriggerBlizzard(12.0f));
     }
 
@@ -416,14 +417,14 @@ public class PlayerMovement : MonoBehaviour
         musicPlaying = true;
         if(songSwitch){
             //play tune 1
-            audio.clip = tune1SFX;
-            audio.Play();
+            audio2.clip = tune1SFX;
+            audio2.Play();
             songSwitch = !songSwitch;
 
         } else if(!songSwitch){
             //play tune 2
-            audio.clip = tune2SFX;
-            audio.Play();
+            audio2.clip = tune2SFX;
+            audio2.Play();
             songSwitch = !songSwitch;
         }
         yield return new WaitForSeconds(time);

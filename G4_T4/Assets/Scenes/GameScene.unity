@@ -1176,6 +1176,7 @@ MonoBehaviour:
   shovelTxt: {fileID: 0}
   audio: {fileID: 368822846}
   audio2: {fileID: 0}
+  audioSource2: {fileID: 0}
   shovelingSFX: {fileID: 8300000, guid: a7b1f3e945ef020479e17ebc96451d2e, type: 3}
   tune1SFX: {fileID: 8300000, guid: 82e25c2f307749d42a046d2791f8d10d, type: 3}
   tune2SFX: {fileID: 8300000, guid: 9a550858b6ea0b54cb2eb088674b3397, type: 3}
@@ -2549,7 +2550,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4, y: 3, z: 3}
+  m_Size: {x: 4, y: 3, z: 4}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &901208094
 MeshRenderer:
@@ -2608,7 +2609,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 901208092}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.52, y: 2.35, z: -5.31}
+  m_LocalPosition: {x: 2.4, y: 2.35, z: -5.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3054,7 +3055,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: a7b1f3e945ef020479e17ebc96451d2e, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 82e25c2f307749d42a046d2791f8d10d, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -3164,7 +3165,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 5956cb93ab2ccfc42b86a9b65dfcaf00, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 9a550858b6ea0b54cb2eb088674b3397, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -7823,7 +7824,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -7931,7 +7932,8 @@ MonoBehaviour:
   blizzardTxt: {fileID: 196985075}
   shovelTxt: {fileID: 0}
   audio: {fileID: 7488115895916951321}
-  audio2: {fileID: 7488115895916951327}
+  audio2: {fileID: 1261387241}
+  audioSource2: {fileID: 1261387239}
   shovelingSFX: {fileID: 8300000, guid: a7b1f3e945ef020479e17ebc96451d2e, type: 3}
   tune1SFX: {fileID: 8300000, guid: 82e25c2f307749d42a046d2791f8d10d, type: 3}
   tune2SFX: {fileID: 8300000, guid: 9a550858b6ea0b54cb2eb088674b3397, type: 3}
@@ -8039,7 +8041,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
