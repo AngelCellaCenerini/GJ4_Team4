@@ -109,6 +109,7 @@ public class PlayerMovement : MonoBehaviour
 
         //Audio Resource
         audio = GetComponent<AudioSource>();
+        audio2 = GetComponent<AudioSource>();
     }
 
     void handleRotation()
@@ -144,13 +145,14 @@ public class PlayerMovement : MonoBehaviour
         // currentRunMovement.z = -currentMovementInput.y * runMultiplier;
         // Check if moving
         isMovementPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0;
-        if (isMovementPressed && !musicPlaying) { 
-            audio.clip = footstepSFX;
-            audio.Play();
+        if (isMovementPressed) { 
+            audio2.clip = footstepSFX;
+            audio2.volume = 0.1f;
+            audio2.Play();
         }
         else
         {
-            audio.Stop();
+            audio2.Stop();
         }
     }
 
@@ -308,12 +310,17 @@ public class PlayerMovement : MonoBehaviour
                     shovelGrabbed = !shovelGrabbed;
                     if(shovelGrabbed){
                         // SEARCH: SHOVEL DROP 
+                        audio.clip = grabShovelSFX;
+                        audio.volume = 2.5f;
+                        audio.Play();
                         shovel.SetActive(false);
+
                     } else if(!shovelGrabbed){
                         // SEARCH: SHOVEL PICK UP 
                         shovel.SetActive(true);
                         gameObject.transform.position = new Vector3(-11f, 3f, -32);
-                        audio.clip = grabShovelSFX;
+                        audio.clip = dropItemSFX;
+                        audio.volume = 2.5f;
                         audio.Play();
                     }
                     shovelBuffer = true;
@@ -326,9 +333,16 @@ public class PlayerMovement : MonoBehaviour
                     musicGrabbed = !musicGrabbed;
                     if(musicGrabbed){
                         // SEARCH: MUSIC DROP 
+                        audio.clip = grabMusicBoxSFX;
+                     
+                        audio.volume = 2.5f;
+                        audio.Play();
                         musicBox.SetActive(false);
                     } else if(!musicGrabbed){
                         // SEARCH: MUSIC PICK UP 
+                        audio.clip = dropItemSFX;
+                        audio.volume = 2.5f;
+                        audio.Play();
                         musicBox.SetActive(true);
                         gameObject.transform.position = new Vector3(3f, 3f, -10f);
                     }
