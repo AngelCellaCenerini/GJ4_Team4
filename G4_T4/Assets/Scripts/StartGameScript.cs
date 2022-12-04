@@ -8,6 +8,6 @@ public class StartGameScript : MonoBehaviour
     public void changeTitleScene()
     {
         // Change Scene
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("GameScene");
     }
 }

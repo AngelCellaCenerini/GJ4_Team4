@@ -64,6 +64,7 @@ public class PlayerMovement : MonoBehaviour
 
     //sounds
     private bool isPlaying = false;
+    private bool songSwitch = false;
     public AudioSource audio;
     public AudioClip shovelingSFX;
     public AudioClip tune1SFX;
@@ -104,8 +105,6 @@ public class PlayerMovement : MonoBehaviour
 
         healthbar.fillAmount = snmMaxHealth;
 
-        //------ SEARCH: when the game starts
-
         //Audio Resource
         audio = GetComponent<AudioSource>();
     }
@@ -143,8 +142,7 @@ public class PlayerMovement : MonoBehaviour
         // currentRunMovement.z = -currentMovementInput.y * runMultiplier;
         // Check if moving
         isMovementPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0;
-        //------ SEARCH: Walking area, footstep sounds?
-        if (isMovementPressed) { 
+        if (isMovementPressed && !musicPlaying) { 
             audio.clip = footstepSFX;
             audio.Play();
         }
@@ -284,8 +282,7 @@ public class PlayerMovement : MonoBehaviour
     void collisionInteraction(){
         switch(interacting){
             case "snowman": 
-                if(shovelGrabbed == true && snowLvl >= 1 && isInteractPressed){
-                    //------ SEARCH: shoveling
+                if(shovelGrabbed && !musicGrabbed && snowLvl >= 1 && isInteractPressed){
                     snowLvl -= 1;
                     //text stuff
                     isInteractPressed = false;
@@ -293,8 +290,7 @@ public class PlayerMovement : MonoBehaviour
                     audio.Play();
                     //AudioSource.PlayOneShot(shoveling, 1f);
                 }
-                if(shovelGrabbed == false && musicPlaying == false && isInteractPressed){
-                    //------ SEARCH: singing
+                if(!shovelGrabbed && musicGrabbed && !musicPlaying && isInteractPressed){
                     snmCurrentHealth += 10;
                     StartCoroutine(Singing(3.0f));
                     //text stuff
@@ -308,7 +304,7 @@ public class PlayerMovement : MonoBehaviour
                         shovel.SetActive(false);
                     } else if(!shovelGrabbed){
                         shovel.SetActive(true);
-                        gameObject.transform.position = new Vector3(-17f, 1.5f, 15);
+                        gameObject.transform.position = new Vector3(-11f, 3f, -32);
                         audio.clip = grabShovelSFX;
                         audio.Play();
                     }
@@ -324,7 +320,7 @@ public class PlayerMovement : MonoBehaviour
                         musicBox.SetActive(false);
                     } else if(!musicGrabbed){
                         musicBox.SetActive(true);
-                        gameObject.transform.position = new Vector3(-17f, 1.5f, 15);
+                        gameObject.transform.position = new Vector3(3f, 3f, -10f);
                     }
                     musicBuffer = true;
                 } else if(shovelGrabbed){
@@ -387,6 +383,14 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator Singing(float time)
     {
         musicPlaying = true;
+        // SEARCH: SINGING SOUND
+        if(songSwitch){
+            //play tune 1
+            songSwitch = !songSwitch;
+        } else if(!songSwitch){
+            //play tune 2
+            songSwitch = !songSwitch;
+        }
         yield return new WaitForSeconds(time);
         musicPlaying = false;
     }
