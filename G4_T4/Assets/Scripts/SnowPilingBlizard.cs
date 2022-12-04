@@ -19,11 +19,11 @@ public class SnowPilingBlizard : MonoBehaviour
     {
         // Place this code when the blizard starts (inside an if() or whatever you have)
         // Start Piling 
-        snowAnimator.SetBool("isSnowing", true);
+        snowAnimator.SetBool("isPiling", true);
 
         // Place this code when the blizard stops (inside an if() or whatever you have)
         // Stop Piling 
-        snowAnimator.SetBool("isSnowing", false);
+        snowAnimator.SetBool("isPiling", false);
 
     }
 }
