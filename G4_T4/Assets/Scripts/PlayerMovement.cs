@@ -102,6 +102,7 @@ public class PlayerMovement : MonoBehaviour
 
         StartCoroutine(TriggerBlizzard(12.0f));
         StartCoroutine(ChangeDay(16.0f));
+        StartCoroutine(InitialTxt());
 
         healthbar.fillAmount = snmMaxHealth;
 
@@ -142,7 +143,7 @@ public class PlayerMovement : MonoBehaviour
         // currentRunMovement.z = -currentMovementInput.y * runMultiplier;
         // Check if moving
         isMovementPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0;
-        if (isMovementPressed && !musicPlaying) { 
+        if (isMovementPressed) { 
             audio.clip = footstepSFX;
             audio.Play();
         }
@@ -283,7 +284,9 @@ public class PlayerMovement : MonoBehaviour
         switch(interacting){
             case "snowman": 
                 if(shovelGrabbed && !musicGrabbed && snowLvl >= 1 && isInteractPressed){
-                    snowLvl -= 1;
+                    if(snowLvl >= 1){
+                        snowLvl -= 1;
+                    }
                     //text stuff
                     isInteractPressed = false;
                     audio.clip = shovelingSFX;
@@ -291,7 +294,9 @@ public class PlayerMovement : MonoBehaviour
                     //AudioSource.PlayOneShot(shoveling, 1f);
                 }
                 if(!shovelGrabbed && musicGrabbed && !musicPlaying && isInteractPressed){
-                    snmCurrentHealth += 10;
+                    if(snmCurrentHealth <= 90){
+                        snmCurrentHealth += 10;
+                    }
                     StartCoroutine(Singing(3.0f));
                     //text stuff
                     isInteractPressed = false;
@@ -301,8 +306,10 @@ public class PlayerMovement : MonoBehaviour
                 if(!shovelBuffer && !musicGrabbed){
                     shovelGrabbed = !shovelGrabbed;
                     if(shovelGrabbed){
+                        // SEARCH: SHOVEL DROP 
                         shovel.SetActive(false);
                     } else if(!shovelGrabbed){
+                        // SEARCH: SHOVEL PICK UP 
                         shovel.SetActive(true);
                         gameObject.transform.position = new Vector3(-11f, 3f, -32);
                         audio.clip = grabShovelSFX;
@@ -317,8 +324,10 @@ public class PlayerMovement : MonoBehaviour
                 if(!musicBuffer && !shovelGrabbed){
                     musicGrabbed = !musicGrabbed;
                     if(musicGrabbed){
+                        // SEARCH: MUSIC DROP 
                         musicBox.SetActive(false);
                     } else if(!musicGrabbed){
+                        // SEARCH: MUSIC PICK UP 
                         musicBox.SetActive(true);
                         gameObject.transform.position = new Vector3(3f, 3f, -10f);
                     }
@@ -337,6 +346,13 @@ public class PlayerMovement : MonoBehaviour
         dayCounter += 1;
         calendarTxt.text = dayCounter.ToString();
         StartCoroutine(ChangeDay(16.0f));
+    }
+
+    IEnumerator InitialTxt(){
+        //warning text
+        startingTxt.SetActive(true);
+        yield return new WaitForSeconds(8.0f);
+        startingTxt.SetActive(false);
     }
 
     // Timer to add snow
@@ -383,7 +399,6 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator Singing(float time)
     {
         musicPlaying = true;
-        // SEARCH: SINGING SOUND
         if(songSwitch){
             //play tune 1
             audio.clip = tune1SFX;
