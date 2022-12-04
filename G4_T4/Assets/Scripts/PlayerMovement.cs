@@ -386,9 +386,14 @@ public class PlayerMovement : MonoBehaviour
         // SEARCH: SINGING SOUND
         if(songSwitch){
             //play tune 1
+            audio.clip = tune1SFX;
+            audio.Play();
             songSwitch = !songSwitch;
+
         } else if(!songSwitch){
             //play tune 2
+            audio.clip = tune2SFX;
+            audio.Play();
             songSwitch = !songSwitch;
         }
         yield return new WaitForSeconds(time);
