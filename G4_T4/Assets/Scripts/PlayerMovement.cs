@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 // ------ PERCY TO HELP YOU NAVIGATE FOR SOUND -------
@@ -241,8 +242,21 @@ public class PlayerMovement : MonoBehaviour
 
         healthbar.fillAmount = snmCurrentHealth / 100;
 
-        if(isInteractPressed && interacting != "none"){
+        if(isInteractPressed && interacting == "snowman"){
+            float timer = 0;
+            timer += Time.deltaTime;
+            if(timer >= 100){
+                StartCoroutine(Interaction(10.0f));
+            }
+        } else if(isInteractPressed && interacting != "none"){
             StartCoroutine(Interaction(10.0f));
+        }
+
+        //end condition
+        if(snmCurrentHealth <= 0){
+            SceneManager.LoadScene("EndScene");
+        } else if (dayCounter == 26){
+            SceneManager.LoadScene("EndScene");
         }
     }
 
@@ -298,8 +312,14 @@ public class PlayerMovement : MonoBehaviour
                     //AudioSource.PlayOneShot(shoveling, 1f);
                 }
                 if(!shovelGrabbed && musicGrabbed && !musicPlaying && isInteractPressed){
-                    if(snmCurrentHealth <= 90){
+                    if(snmCurrentHealth <= 90 && snowLvl == 0){
                         snmCurrentHealth += 10;
+                    } else if(snmCurrentHealth <= 90 && snowLvl == 1){
+                        snmCurrentHealth += 8;
+                    } else if(snmCurrentHealth <= 90 && snowLvl == 2){
+                        snmCurrentHealth += 5;
+                    } else if(snmCurrentHealth <= 90 && snowLvl == 3){
+                        snmCurrentHealth += 3;
                     }
                     StartCoroutine(Singing(3.0f));
                     //text stuff
@@ -367,7 +387,7 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator InitialTxt(){
         //warning text
         startingTxt.SetActive(true);
-        yield return new WaitForSeconds(8.0f);
+        yield return new WaitForSeconds(10.0f);
         startingTxt.SetActive(false);
     }
 
