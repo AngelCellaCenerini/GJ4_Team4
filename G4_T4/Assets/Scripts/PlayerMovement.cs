@@ -145,7 +145,7 @@ public class PlayerMovement : MonoBehaviour
         // currentRunMovement.z = -currentMovementInput.y * runMultiplier;
         // Check if moving
         isMovementPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0;
-        if (isMovementPressed) { 
+        if (isMovementPressed && !musicPlaying) { 
             audio2.clip = footstepSFX;
             audio2.volume = 0.1f;
             audio2.Play();
