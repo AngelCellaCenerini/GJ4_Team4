@@ -82,6 +82,14 @@ public class PlayerMovement : MonoBehaviour
     public AudioClip bellRingingSFX;
     public AudioClip blizzardSFX;
 
+    // Angel
+    // Snow Particle System
+    public ParticleSystem snowBlizard;
+    // Snow Piling Up on Ground
+    public GameObject groundSnow;
+    Animator snowAnimator;
+    //
+
     void Awake()
     {
         // Reference
@@ -112,6 +120,13 @@ public class PlayerMovement : MonoBehaviour
         //Audio Resource
         audio = GetComponent<AudioSource>();
         audio2 = audioSource2.GetComponent<AudioSource>();
+
+        // Angel
+        // Snow Particle System
+        snowBlizard = snowBlizard.GetComponent<ParticleSystem>();
+        // Snow Ground Animator
+        snowAnimator = groundSnow.GetComponent<Animator>();
+        //
     }
 
     void handleRotation()
@@ -413,17 +428,39 @@ public class PlayerMovement : MonoBehaviour
         //warning text
         blizzardTxt.SetActive(true);
 
+        // Angel - Snow Particle System
+        // Start Snow
+        snowBlizard.Play();
+        //
+
         yield return new WaitForSeconds(6.0f);
         //blizzard start
         blizzardTxt.SetActive(false);
         blizzard = true;
+
+        // Angel
+        // Snow Starts Piling Up
+        // Start Piling 
+        snowAnimator.SetBool("isPiling", true);
+        //
+
         //start snow
-        if(blizzard){
+        if (blizzard){
             StartCoroutine(AddSnow(3.0f));
         }
         yield return new WaitForSeconds(20.0f);
         //stop blizzard
         blizzard = false;
+        // Angel - Snow Particle System
+        // Start Snow
+        snowBlizard.Stop();
+        // Angel
+        // Snow Starts Piling Up
+        // Stop Piling 
+        snowAnimator.SetBool("isPiling", false);
+        //
+        //
+
         StartCoroutine(TriggerBlizzard(12.0f));
     }
 
