@@ -82,6 +82,12 @@ public class PlayerMovement : MonoBehaviour
     public AudioClip bellRingingSFX;
     public AudioClip blizzardSFX;
 
+    // Angel
+    // Snow Particle System
+    //public GameObject blizzardSnow;
+    public ParticleSystem snowParticles;
+    //
+
     void Awake()
     {
         // Reference
@@ -111,7 +117,15 @@ public class PlayerMovement : MonoBehaviour
 
         //Audio Resource
         audio = GetComponent<AudioSource>();
+<<<<<<< Updated upstream
         audio2 = audioSource2.GetComponent<AudioSource>();
+=======
+
+        // Angel
+        // Snow Particles
+        snowParticles = snowParticles.GetComponent<ParticleSystem>();
+        //
+>>>>>>> Stashed changes
     }
 
     void handleRotation()
@@ -413,6 +427,11 @@ public class PlayerMovement : MonoBehaviour
         //warning text
         blizzardTxt.SetActive(true);
 
+        // Angel
+        // Start Snow Particles
+        snowParticles.Play();
+        //
+
         yield return new WaitForSeconds(6.0f);
         //blizzard start
         blizzardTxt.SetActive(false);
@@ -424,6 +443,14 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(20.0f);
         //stop blizzard
         blizzard = false;
+<<<<<<< Updated upstream
+=======
+        // Angel
+        // Start Snow Particles
+        snowParticles.Stop();
+        //
+        //reset blizzard after 12 sec
+>>>>>>> Stashed changes
         StartCoroutine(TriggerBlizzard(12.0f));
     }
 
