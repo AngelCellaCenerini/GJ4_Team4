@@ -478,12 +478,14 @@ public class PlayerMovement : MonoBehaviour
         if(songSwitch){
             //play tune 1
             audio2.clip = tune1SFX;
+            audio2.volume = 0.6f;
             audio2.Play();
             songSwitch = !songSwitch;
 
         } else if(!songSwitch){
             //play tune 2
             audio2.clip = tune2SFX;
+            audio2.volume = 0.6f;
             audio2.Play();
             songSwitch = !songSwitch;
         }
