@@ -603,7 +603,7 @@ public class PlayerMovement : MonoBehaviour
         if (blizzard){
             StartCoroutine(AddSnow(3.0f));
         }
-        yield return new WaitForSeconds(8.0f);
+        yield return new WaitForSeconds(7.0f);
         //stop blizzard
         blizzard = false;
         // Angel - Snow Particle System
@@ -616,7 +616,7 @@ public class PlayerMovement : MonoBehaviour
         //
         //
 
-        StartCoroutine(TriggerBlizzard(8.0f));
+        StartCoroutine(TriggerBlizzard(9.0f));
     }
 
     // Add snow timer
