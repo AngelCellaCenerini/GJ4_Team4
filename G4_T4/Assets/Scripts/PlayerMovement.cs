@@ -94,6 +94,11 @@ public class PlayerMovement : MonoBehaviour
     public GameObject groundSnow;
     Animator snowAnimator;
 
+    // UI Inventory
+    public RawImage inventoryHolder;
+    public GameObject inventory;
+    //
+
     void Awake()
     {
         // Reference
@@ -136,6 +141,9 @@ public class PlayerMovement : MonoBehaviour
         shovelIcon.SetActive(false);
         musicBoxOutline.SetActive(false);
         musicBoxIcon.SetActive(false);
+
+        // Inventory UI
+        inventoryHolder = inventory.GetComponent<RawImage>();
         //
     }
 
@@ -340,6 +348,8 @@ public class PlayerMovement : MonoBehaviour
         // Snowman Animation
         handleSnowmanAnimation();
         handleRotation();
+        // Inventory
+        handleInventory();
 
         //slow down the movement speed
         switch(snowLvl){
@@ -441,6 +451,18 @@ public class PlayerMovement : MonoBehaviour
         playerInput.CharacterControls.Disable();
     }
 
+    void handleInventory()
+    {
+        if (shovelGrabbed && isInteractPressed)
+        {
+            //Debug.Log("using shovel");
+        }
+        else
+        {
+
+        }
+    }
+
     //check for any collisions
     void OnTriggerEnter(Collider target){
         switch(target.gameObject.tag){
@@ -472,7 +494,10 @@ public class PlayerMovement : MonoBehaviour
             case "snowman": 
                 if(shovelGrabbed && !musicGrabbed && snowLvl >= 1 && isInteractPressed){
                     shovelNum += 1;
-                    if(dayCounter <= 8 && shovelNum == 1){
+                    // Change Inventory UI
+                    inventoryHolder.color = new Color32(41, 0, 171, 158);
+
+                    if (dayCounter <= 8 && shovelNum == 1){
                         snowLvl -= 1;
                         shovelNum = 0;
                     } else if(dayCounter >= 9 && dayCounter <= 17 && shovelNum == 3){
@@ -484,6 +509,11 @@ public class PlayerMovement : MonoBehaviour
                     }
                     //text stuff
                     isInteractPressed = false;
+                    if (!isInteractPressed)
+                    {
+                        // Change Inventory UI
+                        StartCoroutine(changeUIColor(1.0f));
+                    }
                     audio2.clip = shovelingSFX;
                     audio2.Play();
                     //AudioSource.PlayOneShot(shoveling, 1f);
@@ -600,6 +630,13 @@ public class PlayerMovement : MonoBehaviour
         StartCoroutine(ChangeDay(16.0f));
     }
 
+    IEnumerator changeUIColor(float time)
+    {
+        yield return new WaitForSeconds(time);
+        // Change Back Inventory UI
+        inventoryHolder.color = new Color32(9, 0, 171, 76);
+    }
+
     IEnumerator InitialTxt(){
         //warning text
         startingTxt.SetActive(true);
@@ -674,7 +711,10 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator Singing(float time)
     {
         musicPlaying = true;
-        if(songSwitch){
+        // Change Inventory UI
+        inventoryHolder.color = new Color32(41, 0, 171, 158);
+
+        if (songSwitch){
             //play tune 1
             audio2.clip = tune1SFX;
             audio2.volume = 0.2f;
@@ -690,6 +730,11 @@ public class PlayerMovement : MonoBehaviour
         }
         yield return new WaitForSeconds(time);
         musicPlaying = false;
+        if (!musicPlaying)
+        {
+            StartCoroutine(changeUIColor(1.0f));
+        }
+
     }
 
     public void handleSnowmanAnimation()
