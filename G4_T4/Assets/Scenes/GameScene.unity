@@ -485,7 +485,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &196985076
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7918,9 +7918,6 @@ MonoBehaviour:
   healthbar: {fileID: 2000002539}
   snowman: {fileID: 7985793980103199180}
   calendarTxt: {fileID: 1718351081}
-  startingTxt: {fileID: 398810774}
-  blizzardTxt: {fileID: 196985075}
-  shovelTxt: {fileID: 0}
   audio: {fileID: 7488115895916951321}
   audio2: {fileID: 1261387241}
   audioSource2: {fileID: 1261387239}
@@ -11714,7 +11711,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 8cbc3902433f5ca4f85a969dc51ea446, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.7
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -12704,9 +12701,6 @@ MonoBehaviour:
   healthbar: {fileID: 2000002539}
   snowman: {fileID: 7985793980103199180}
   calendarTxt: {fileID: 1718351081}
-  startingTxt: {fileID: 398810774}
-  blizzardTxt: {fileID: 196985075}
-  shovelTxt: {fileID: 0}
   audio: {fileID: 7488115895916951321}
   audio2: {fileID: 1261387241}
   audioSource2: {fileID: 1261387239}

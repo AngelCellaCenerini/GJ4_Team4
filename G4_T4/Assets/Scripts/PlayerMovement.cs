@@ -64,9 +64,6 @@ public class PlayerMovement : MonoBehaviour
     //UI variables
     private int dayCounter = 1;
     [SerializeField] TextMeshProUGUI calendarTxt;
-    [SerializeField] GameObject startingTxt;
-    [SerializeField] GameObject blizzardTxt;
-    [SerializeField] GameObject shovelTxt;
 
     //sounds
     private bool isPlaying = false;
@@ -121,9 +118,8 @@ public class PlayerMovement : MonoBehaviour
         playerInput.CharacterControls.Interact.canceled += onInteract;
     
 
-        StartCoroutine(TriggerBlizzard(10.0f));
+        StartCoroutine(TriggerBlizzard(12.0f));
         StartCoroutine(ChangeDay(8.0f));
-        StartCoroutine(InitialTxt());
 
         healthbar.fillAmount = snmMaxHealth;
 
@@ -286,9 +282,9 @@ public class PlayerMovement : MonoBehaviour
             if(dayCounter <= 8){
                 snmCurrentHealth -= 0.01f;
             } else if(dayCounter >= 9 && dayCounter <= 17){
-                snmCurrentHealth -= 0.03f;
+                snmCurrentHealth -= 0.02f;
             } else if(dayCounter >= 18){
-                snmCurrentHealth -= 0.05f;
+                snmCurrentHealth -= 0.03f;
             }
             break;
             case 2: snow_1.SetActive(false);
@@ -296,11 +292,11 @@ public class PlayerMovement : MonoBehaviour
             snow_3.SetActive(false);
             //change health loss throughout the game
             if(dayCounter <= 8){
-                snmCurrentHealth -= 0.03f;
+                snmCurrentHealth -= 0.02f;
             } else if(dayCounter >= 9 && dayCounter <= 17){
-                snmCurrentHealth -= 0.04f;
+                snmCurrentHealth -= 0.03f;
             } else if(dayCounter >= 18){
-                snmCurrentHealth -= 0.06f;
+                snmCurrentHealth -= 0.04f;
             }
             break;
             case 3: snow_1.SetActive(false);
@@ -308,20 +304,20 @@ public class PlayerMovement : MonoBehaviour
             snow_3.SetActive(true);
             //change health loss throughout the game
             if(dayCounter <= 8){
-                snmCurrentHealth -= 0.05f;
+                snmCurrentHealth -= 0.03f;
             } else if(dayCounter >= 9 && dayCounter <= 17){
-                snmCurrentHealth -= 0.06f;
+                snmCurrentHealth -= 0.04f;
             } else if(dayCounter >= 18){
-                snmCurrentHealth -= 0.08f;
+                snmCurrentHealth -= 0.05f;
             }
             break;
             case 4: StopCoroutine(AddSnow(0f));
             if(dayCounter <= 8){
-                snmCurrentHealth -= 0.05f;
+                snmCurrentHealth -= 0.03f;
             } else if(dayCounter >= 9 && dayCounter <= 17){
-                snmCurrentHealth -= 0.06f;
+                snmCurrentHealth -= 0.04f;
             } else if(dayCounter >= 18){
-                snmCurrentHealth -= 0.08f;
+                snmCurrentHealth -= 0.05f;
             }
             break;
         }
@@ -559,14 +555,6 @@ public class PlayerMovement : MonoBehaviour
         inventoryHolder.color = new Color32(9, 0, 171, 76);
     }
 
-    IEnumerator InitialTxt(){
-        //warning text
-        yield return new WaitForSeconds(14.0f);
-        blizzardTxt.SetActive(true);
-        yield return new WaitForSeconds(10.0f);
-        blizzardTxt.SetActive(false);
-    }
-
     // Timer to add snow
     IEnumerator AddSnow(float time)
     {
@@ -603,7 +591,7 @@ public class PlayerMovement : MonoBehaviour
         if (blizzard){
             StartCoroutine(AddSnow(3.0f));
         }
-        yield return new WaitForSeconds(7.0f);
+        yield return new WaitForSeconds(10.0f);
         //stop blizzard
         blizzard = false;
         // Angel - Snow Particle System
@@ -616,7 +604,7 @@ public class PlayerMovement : MonoBehaviour
         //
         //
 
-        StartCoroutine(TriggerBlizzard(9.0f));
+        StartCoroutine(TriggerBlizzard(6.0f));
     }
 
     // Add snow timer

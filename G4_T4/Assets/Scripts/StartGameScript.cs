@@ -16,4 +16,9 @@ public class StartGameScript : MonoBehaviour
         Debug.Log("Quit");
         Application.Quit();
     }
+    public void MainMenu()
+    {
+        // Change Scene
+        SceneManager.LoadScene("TitleScene");
+    }
 }
