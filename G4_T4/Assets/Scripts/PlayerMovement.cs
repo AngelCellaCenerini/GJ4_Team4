@@ -122,7 +122,7 @@ public class PlayerMovement : MonoBehaviour
     
 
         StartCoroutine(TriggerBlizzard(10.0f));
-        StartCoroutine(ChangeDay(14.0f));
+        StartCoroutine(ChangeDay(8.0f));
         StartCoroutine(InitialTxt());
 
         healthbar.fillAmount = snmMaxHealth;
@@ -241,13 +241,6 @@ public class PlayerMovement : MonoBehaviour
                     animator.SetBool("isBlizzarding", false);
                     animator.SetBool("isWalking", true);
                 }
-                /*
-                else if (!animator.GetBool("isWalking") && animator.GetBool("isBlizzarding"))
-                {
-                    // Walking
-                    animator.SetBool("isBlizzarding", false);
-                    animator.SetBool("isWalking", true);
-                }*/
             }
         }
         else if(!isMovementPressed || musicPlaying)
@@ -262,80 +255,7 @@ public class PlayerMovement : MonoBehaviour
                 // Stop Walking
                 animator.SetBool("isBlizzarding", false);
             }
-
         }
-
-        /*
-        if (isMovementPressed)
-        {
-            if (!musicPlaying)
-            {
-                /*if (!blizzard && !animator.GetBool("isBlizzarding"))
-                {
-                    // Walk
-                    animator.SetBool("isWalking", true);
-                }
-                else if (!blizzard && animator.GetBool("isBlizzarding"))
-                {
-                    animator.SetBool("isBlizzarding", false);
-                }
-                
-
-                if (!blizzard && isMovementPressed)
-                {
-                    if (!animator.GetBool("isBlizzarding") && !animator.GetBool("isWalking"))
-                    {
-                        // Walk
-                        animator.SetBool("isWalking", true);
-                        // Debug.Log("walk1");
-                    }
-                    else if (animator.GetBool("isBlizzarding") && afterBlizzard)
-                    {
-                        StartCoroutine(StopSnowWalk(0.5f));
-                    }                 
-
-                }
-                else if (blizzard && isMovementPressed)
-                {
-                    if (!animator.GetBool("isBlizzarding")) // && afterBlizzard
-                    {
-                        // Walk
-                        animator.SetBool("isWalking", true);
-                        Debug.Log("walk2");
-                    }
-
-                    if (!walkNormal)
-                    {
-                        StartCoroutine(DelaySnowWalk(2.0f));
-                    }
-                    
-                }
-            }
-            else
-            {
-                
-                // Stop Walking
-                if (animator.GetBool("isWalking"))
-                {
-                    animator.SetBool("isWalking", false);
-                }
-                else if (animator.GetBool("isBlizzarding"))
-                {
-                    animator.SetBool("isBlizzarding", false);
-                }
-            }
-        }
-        else {
-            // Stop Walking
-            if (animator.GetBool("isWalking"))
-            {
-              animator.SetBool("isWalking", false);
-            }
-            else if (animator.GetBool("isBlizzarding"))
-            {
-              animator.SetBool("isBlizzarding", false);
-            }   
-        }*/
     }
 
     void FixedUpdate()
@@ -351,7 +271,9 @@ public class PlayerMovement : MonoBehaviour
         // Inventory
         handleInventory();
 
-        //slow down the movement speed
+        Debug.Log(snowLvl);
+
+        //change snow level
         switch(snowLvl){
             case 0: snow_1.SetActive(false);
             snow_2.SetActive(false);
@@ -434,7 +356,7 @@ public class PlayerMovement : MonoBehaviour
 
         //end condition
         if(snmCurrentHealth <= 0){
-            SceneManager.LoadScene("EndScene");
+            SceneManager.LoadScene("EndSceneBad");
         } else if (dayCounter == 26){
             SceneManager.LoadScene("EndScene");
         }
@@ -522,15 +444,15 @@ public class PlayerMovement : MonoBehaviour
                     if(snmCurrentHealth <= 90){
                         switch(snowLvl){
                             case 0: if(dayCounter <= 8){
-                                snmCurrentHealth += 8;
+                                snmCurrentHealth += 10;
                             } else if(dayCounter >= 9 && dayCounter <= 17){
-                                snmCurrentHealth += 7;
+                                snmCurrentHealth += 8;
                             } else if(dayCounter >= 18){
-                                snmCurrentHealth += 5;
+                                snmCurrentHealth += 6;
                             }
                             break;
                             case 1: if(dayCounter <= 8){
-                                snmCurrentHealth += 6;
+                                snmCurrentHealth += 8;
                             } else if(dayCounter >= 9 && dayCounter <= 17){
                                 snmCurrentHealth += 6;
                             } else if(dayCounter >= 18){
@@ -538,11 +460,11 @@ public class PlayerMovement : MonoBehaviour
                             }
                             break;
                             case 2: if(dayCounter <= 8){
-                                snmCurrentHealth += 5;
+                                snmCurrentHealth += 6;
                             } else if(dayCounter >= 9 && dayCounter <= 17){
-                                snmCurrentHealth += 5;
+                                snmCurrentHealth += 4;
                             } else if(dayCounter >= 18){
-                                snmCurrentHealth += 3;
+                                snmCurrentHealth += 2;
                             }
                             break;
                             case 3: if(dayCounter <= 8){
@@ -550,7 +472,7 @@ public class PlayerMovement : MonoBehaviour
                             } else if(dayCounter >= 9 && dayCounter <= 17){
                                 snmCurrentHealth += 2;
                             } else if(dayCounter >= 18){
-                                snmCurrentHealth += 0;
+                                snmCurrentHealth += 1;
                             }
                             break;
                         }
@@ -627,7 +549,7 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(time);
         dayCounter += 1;
         calendarTxt.text = dayCounter.ToString();
-        StartCoroutine(ChangeDay(16.0f));
+        StartCoroutine(ChangeDay(8.0f));
     }
 
     IEnumerator changeUIColor(float time)
@@ -639,10 +561,7 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator InitialTxt(){
         //warning text
-        startingTxt.SetActive(true);
-        yield return new WaitForSeconds(10.0f);
-        startingTxt.SetActive(false);
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(14.0f);
         blizzardTxt.SetActive(true);
         yield return new WaitForSeconds(10.0f);
         blizzardTxt.SetActive(false);
@@ -652,7 +571,7 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator AddSnow(float time)
     {
         yield return new WaitForSeconds(time);
-        if(blizzard){
+        if(blizzard && snowLvl <= 2){
             snowLvl += 1;
            // afterBlizzard = true;
             StartCoroutine(AddSnow(3.0f));
@@ -670,7 +589,7 @@ public class PlayerMovement : MonoBehaviour
         snowBlizard.Play();
         //
 
-        yield return new WaitForSeconds(6.0f);
+        yield return new WaitForSeconds(4.0f);
         //blizzard start
         blizzard = true;
 
@@ -684,7 +603,7 @@ public class PlayerMovement : MonoBehaviour
         if (blizzard){
             StartCoroutine(AddSnow(3.0f));
         }
-        yield return new WaitForSeconds(20.0f);
+        yield return new WaitForSeconds(8.0f);
         //stop blizzard
         blizzard = false;
         // Angel - Snow Particle System
@@ -697,7 +616,7 @@ public class PlayerMovement : MonoBehaviour
         //
         //
 
-        StartCoroutine(TriggerBlizzard(12.0f));
+        StartCoroutine(TriggerBlizzard(8.0f));
     }
 
     // Add snow timer
