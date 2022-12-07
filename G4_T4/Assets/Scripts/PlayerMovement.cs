@@ -6,9 +6,6 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-// ------ PERCY TO HELP YOU NAVIGATE FOR SOUND -------
-// Control F this "SEARCH" and It'll bring you to the key areas
-
 public class PlayerMovement : MonoBehaviour
 {
     // Reference
@@ -40,12 +37,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] GameObject snow_3;
     private int snowLvl = 0;
 
-    //shovel
-    private bool shovelGrabbed = false;
+    //shove;l
     public GameObject shovel;
     public GameObject shovelOutline;
     public GameObject shovelIcon;
+    private bool shovelGrabbed = false;
     private bool shovelBuffer = false;
+    private int shovelNum = 0;
 
     //music box
     private bool musicGrabbed = false;
@@ -118,8 +116,8 @@ public class PlayerMovement : MonoBehaviour
         playerInput.CharacterControls.Interact.canceled += onInteract;
     
 
-        StartCoroutine(TriggerBlizzard(12.0f));
-        StartCoroutine(ChangeDay(16.0f));
+        StartCoroutine(TriggerBlizzard(10.0f));
+        StartCoroutine(ChangeDay(14.0f));
         StartCoroutine(InitialTxt());
 
         healthbar.fillAmount = snmMaxHealth;
@@ -352,20 +350,47 @@ public class PlayerMovement : MonoBehaviour
             case 1: snow_1.SetActive(true);
             snow_2.SetActive(false);
             snow_3.SetActive(false);
-            snmCurrentHealth -= 0.01f;
+            //change health loss throughout the game
+            if(dayCounter <= 8){
+                snmCurrentHealth -= 0.01f;
+            } else if(dayCounter >= 9 && dayCounter <= 17){
+                snmCurrentHealth -= 0.03f;
+            } else if(dayCounter >= 18){
+                snmCurrentHealth -= 0.05f;
+            }
             break;
             case 2: snow_1.SetActive(false);
             snow_2.SetActive(true);
             snow_3.SetActive(false);
-            snmCurrentHealth -= 0.03f;
+            //change health loss throughout the game
+            if(dayCounter <= 8){
+                snmCurrentHealth -= 0.03f;
+            } else if(dayCounter >= 9 && dayCounter <= 17){
+                snmCurrentHealth -= 0.04f;
+            } else if(dayCounter >= 18){
+                snmCurrentHealth -= 0.06f;
+            }
             break;
             case 3: snow_1.SetActive(false);
             snow_2.SetActive(false);
             snow_3.SetActive(true);
-            snmCurrentHealth -= 0.05f;
+            //change health loss throughout the game
+            if(dayCounter <= 8){
+                snmCurrentHealth -= 0.05f;
+            } else if(dayCounter >= 9 && dayCounter <= 17){
+                snmCurrentHealth -= 0.06f;
+            } else if(dayCounter >= 18){
+                snmCurrentHealth -= 0.08f;
+            }
             break;
             case 4: StopCoroutine(AddSnow(0f));
-            snmCurrentHealth -= 0.05f;
+            if(dayCounter <= 8){
+                snmCurrentHealth -= 0.05f;
+            } else if(dayCounter >= 9 && dayCounter <= 17){
+                snmCurrentHealth -= 0.06f;
+            } else if(dayCounter >= 18){
+                snmCurrentHealth -= 0.08f;
+            }
             break;
         }
 
@@ -446,8 +471,16 @@ public class PlayerMovement : MonoBehaviour
         switch(interacting){
             case "snowman": 
                 if(shovelGrabbed && !musicGrabbed && snowLvl >= 1 && isInteractPressed){
-                    if(snowLvl >= 1){
+                    shovelNum += 1;
+                    if(dayCounter <= 8 && shovelNum == 1){
                         snowLvl -= 1;
+                        shovelNum = 0;
+                    } else if(dayCounter >= 9 && dayCounter <= 17 && shovelNum == 3){
+                        snowLvl -= 1;
+                        shovelNum = 0;
+                    } else if(dayCounter >= 18 && shovelNum == 5){
+                        snowLvl -= 1;
+                        shovelNum = 0;
                     }
                     //text stuff
                     isInteractPressed = false;
@@ -456,14 +489,41 @@ public class PlayerMovement : MonoBehaviour
                     //AudioSource.PlayOneShot(shoveling, 1f);
                 }
                 if(!shovelGrabbed && musicGrabbed && !musicPlaying && isInteractPressed){
-                    if(snmCurrentHealth <= 90 && snowLvl == 0){
-                        snmCurrentHealth += 10;
-                    } else if(snmCurrentHealth <= 90 && snowLvl == 1){
-                        snmCurrentHealth += 8;
-                    } else if(snmCurrentHealth <= 90 && snowLvl == 2){
-                        snmCurrentHealth += 5;
-                    } else if(snmCurrentHealth <= 90 && snowLvl == 3){
-                        snmCurrentHealth += 3;
+                    if(snmCurrentHealth <= 90){
+                        switch(snowLvl){
+                            case 0: if(dayCounter <= 8){
+                                snmCurrentHealth += 8;
+                            } else if(dayCounter >= 9 && dayCounter <= 17){
+                                snmCurrentHealth += 7;
+                            } else if(dayCounter >= 18){
+                                snmCurrentHealth += 5;
+                            }
+                            break;
+                            case 1: if(dayCounter <= 8){
+                                snmCurrentHealth += 6;
+                            } else if(dayCounter >= 9 && dayCounter <= 17){
+                                snmCurrentHealth += 6;
+                            } else if(dayCounter >= 18){
+                                snmCurrentHealth += 4;
+                            }
+                            break;
+                            case 2: if(dayCounter <= 8){
+                                snmCurrentHealth += 5;
+                            } else if(dayCounter >= 9 && dayCounter <= 17){
+                                snmCurrentHealth += 5;
+                            } else if(dayCounter >= 18){
+                                snmCurrentHealth += 3;
+                            }
+                            break;
+                            case 3: if(dayCounter <= 8){
+                                snmCurrentHealth += 4;
+                            } else if(dayCounter >= 9 && dayCounter <= 17){
+                                snmCurrentHealth += 2;
+                            } else if(dayCounter >= 18){
+                                snmCurrentHealth += 0;
+                            }
+                            break;
+                        }
                     }
                     StartCoroutine(Singing(3.0f));
                     //text stuff
@@ -545,6 +605,10 @@ public class PlayerMovement : MonoBehaviour
         startingTxt.SetActive(true);
         yield return new WaitForSeconds(10.0f);
         startingTxt.SetActive(false);
+        yield return new WaitForSeconds(2.0f);
+        blizzardTxt.SetActive(true);
+        yield return new WaitForSeconds(10.0f);
+        blizzardTxt.SetActive(false);
     }
 
     // Timer to add snow
@@ -564,9 +628,6 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator TriggerBlizzard(float time)
     {
         yield return new WaitForSeconds(time);
-        //warning text
-        blizzardTxt.SetActive(true);
-
         // Angel - Snow Particle System
         // Start Snow
         snowBlizard.Play();
@@ -574,7 +635,6 @@ public class PlayerMovement : MonoBehaviour
 
         yield return new WaitForSeconds(6.0f);
         //blizzard start
-        blizzardTxt.SetActive(false);
         blizzard = true;
 
         // Angel
