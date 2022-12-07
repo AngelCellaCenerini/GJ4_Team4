@@ -33,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
     // Rotation
     float rotationFactorPerFrame = 15.0f;
     //blizzard stuff
-    private bool blizzard = false;
+    public bool blizzard = false;
     private bool blizzardWarning = false;
     [SerializeField] GameObject snow_1;
     [SerializeField] GameObject snow_2;
@@ -43,11 +43,15 @@ public class PlayerMovement : MonoBehaviour
     //shovel
     private bool shovelGrabbed = false;
     public GameObject shovel;
+    public GameObject shovelOutline;
+    public GameObject shovelIcon;
     private bool shovelBuffer = false;
 
     //music box
     private bool musicGrabbed = false;
     public GameObject musicBox;
+    public GameObject musicBoxOutline;
+    public GameObject musicBoxIcon;
     private bool musicBuffer = false;
     private bool musicPlaying = false;
 
@@ -55,6 +59,9 @@ public class PlayerMovement : MonoBehaviour
     private float snmCurrentHealth = 100;
     private float snmMaxHealth = 100;
     public Image healthbar;
+    // Animation
+    public GameObject snowman;
+    Animator snowmanAnimator;
 
     //UI variables
     private int dayCounter = 1;
@@ -88,7 +95,6 @@ public class PlayerMovement : MonoBehaviour
     // Snow Piling Up on Ground
     public GameObject groundSnow;
     Animator snowAnimator;
-    //
 
     void Awake()
     {
@@ -97,7 +103,8 @@ public class PlayerMovement : MonoBehaviour
         characterController = GetComponent<CharacterController>();
 
         // Characte Animators
-        //animator = gameObject.GetComponent<Animator>();
+        animator = gameObject.GetComponent<Animator>();
+        snowmanAnimator = snowman.GetComponent<Animator>();
 
         //isWalkingHash = Animator.StringToHash("isWalking");
         //isRunningHash = Animator.StringToHash("isRunning");
@@ -126,6 +133,11 @@ public class PlayerMovement : MonoBehaviour
         snowBlizard = snowBlizard.GetComponent<ParticleSystem>();
         // Snow Ground Animator
         snowAnimator = groundSnow.GetComponent<Animator>();
+        // Set Collectibles Outlines & Icons False
+        shovelOutline.SetActive(false);
+        shovelIcon.SetActive(false);
+        musicBoxOutline.SetActive(false);
+        musicBoxIcon.SetActive(false);
         //
     }
 
@@ -183,31 +195,141 @@ public class PlayerMovement : MonoBehaviour
 
         // WALK ANIMATION
         // Manage Animation Switches
-        //bool isWalking = animator.GetBool(isWalkingHash);
-        //bool isRunning = animator.GetBool(isRunningHash);
+        bool isWalking = animator.GetBool(isWalkingHash);
 
         // Animate
-        // if (isMovementPressed && !isWalking)
-        // {
-        //     // Walk
-        //     animator.SetBool("isWalking", true);
-        // }
-        // else if (!isMovementPressed && isWalking)
-        // {
-        //     // Stop Walking
-        //     animator.SetBool("isWalking", false);
-        // }
+        // Walk
+        /*if (isMovementPressed && !blizzard)
+        {
+           // Walk
+           animator.SetBool("isWalking", true);
+        }
+        else if (!isMovementPressed)
+        {
+          // Stop Walking
+          animator.SetBool("isWalking", false);
+        }*/
 
-        // if ((isMovementPressed && isRunPressed) && !isRunning)
-        // {
-        //     // Run
-        //     animator.SetBool("isRunning", true);
-        // }
-        // else if ((!isMovementPressed || isRunPressed) && isRunning)
-        // {
-        //     // Stop Running
-        //     animator.SetBool("isRunning", false);
-        // }
+        if (isMovementPressed && !musicPlaying)
+        {
+            if (blizzard)
+            {
+                /*if (!animator.GetBool("isBlizzarding"))
+                {
+                    // Walking
+                    animator.SetBool("isBlizzarding", true);
+                    Debug.Log("walk1");
+                }*/
+                if (!animator.GetBool("isBlizzarding") || animator.GetBool("isWalking"))
+                {
+                    // Walking
+                    animator.SetBool("isBlizzarding", true);
+                    animator.SetBool("isWalking", false);
+                }
+            }
+            else
+            {
+                if (!animator.GetBool("isWalking") || animator.GetBool("isBlizzarding"))
+                {
+                    // Walking
+                    animator.SetBool("isBlizzarding", false);
+                    animator.SetBool("isWalking", true);
+                }
+                /*
+                else if (!animator.GetBool("isWalking") && animator.GetBool("isBlizzarding"))
+                {
+                    // Walking
+                    animator.SetBool("isBlizzarding", false);
+                    animator.SetBool("isWalking", true);
+                }*/
+            }
+        }
+        else if(!isMovementPressed || musicPlaying)
+        {
+            if (animator.GetBool("isWalking"))
+            {
+                // Stop Walking
+                animator.SetBool("isWalking", false);
+            }
+            else if (animator.GetBool("isBlizzarding"))
+            {
+                // Stop Walking
+                animator.SetBool("isBlizzarding", false);
+            }
+
+        }
+
+        /*
+        if (isMovementPressed)
+        {
+            if (!musicPlaying)
+            {
+                /*if (!blizzard && !animator.GetBool("isBlizzarding"))
+                {
+                    // Walk
+                    animator.SetBool("isWalking", true);
+                }
+                else if (!blizzard && animator.GetBool("isBlizzarding"))
+                {
+                    animator.SetBool("isBlizzarding", false);
+                }
+                
+
+                if (!blizzard && isMovementPressed)
+                {
+                    if (!animator.GetBool("isBlizzarding") && !animator.GetBool("isWalking"))
+                    {
+                        // Walk
+                        animator.SetBool("isWalking", true);
+                        // Debug.Log("walk1");
+                    }
+                    else if (animator.GetBool("isBlizzarding") && afterBlizzard)
+                    {
+                        StartCoroutine(StopSnowWalk(0.5f));
+                    }                 
+
+                }
+                else if (blizzard && isMovementPressed)
+                {
+                    if (!animator.GetBool("isBlizzarding")) // && afterBlizzard
+                    {
+                        // Walk
+                        animator.SetBool("isWalking", true);
+                        Debug.Log("walk2");
+                    }
+
+                    if (!walkNormal)
+                    {
+                        StartCoroutine(DelaySnowWalk(2.0f));
+                    }
+                    
+                }
+            }
+            else
+            {
+                
+                // Stop Walking
+                if (animator.GetBool("isWalking"))
+                {
+                    animator.SetBool("isWalking", false);
+                }
+                else if (animator.GetBool("isBlizzarding"))
+                {
+                    animator.SetBool("isBlizzarding", false);
+                }
+            }
+        }
+        else {
+            // Stop Walking
+            if (animator.GetBool("isWalking"))
+            {
+              animator.SetBool("isWalking", false);
+            }
+            else if (animator.GetBool("isBlizzarding"))
+            {
+              animator.SetBool("isBlizzarding", false);
+            }   
+        }*/
     }
 
     void FixedUpdate()
@@ -216,7 +338,9 @@ public class PlayerMovement : MonoBehaviour
         characterController.Move(currentMovement * Time.deltaTime * 1.6f);
 
         // Animate
-        //handleAnimation();
+        handleAnimation();
+        // Snowman Animation
+        handleSnowmanAnimation();
         handleRotation();
 
         //slow down the movement speed
@@ -250,6 +374,8 @@ public class PlayerMovement : MonoBehaviour
             walkSpeed = 0.0f;
         } else if(blizzard) {
             walkSpeed = 4f;
+            //StartCoroutine(DelaySnowWalk(2.0f));
+
         } else {
             walkSpeed = 10.0f;
             //+5
@@ -303,7 +429,7 @@ public class PlayerMovement : MonoBehaviour
     }
     //check when collisions stop (for interactions)
     void OnTriggerExit(Collider target){
-        Debug.Log("out");
+        //Debug.Log("out");
       switch(target.gameObject.tag){
             case "snowman": interacting = "none";
             break;
@@ -353,10 +479,16 @@ public class PlayerMovement : MonoBehaviour
                         audio.volume = 2.5f;
                         audio.Play();
                         shovel.SetActive(false);
+                        // Activate Shovel Outline & Icon
+                        shovelOutline.SetActive(true);
+                        shovelIcon.SetActive(true);
 
                     } else if(!shovelGrabbed){
                         // SEARCH: SHOVEL PICK UP 
                         shovel.SetActive(true);
+                        // De-Activate Shovel & Icon Outline
+                        shovelOutline.SetActive(false);
+                        shovelIcon.SetActive(false);
                         gameObject.transform.position = new Vector3(-11f, 3f, -32);
                         audio.clip = dropItemSFX;
                         audio.volume = 2.5f;
@@ -364,7 +496,7 @@ public class PlayerMovement : MonoBehaviour
                     }
                     shovelBuffer = true;
                 } else if(musicGrabbed){
-                    Debug.Log("Can't hold more then 1 thing");
+                    //Debug.Log("Can't hold more then 1 thing");
                 }
             break;
             case "musicbox": 
@@ -377,17 +509,23 @@ public class PlayerMovement : MonoBehaviour
                         audio.volume = 2.5f;
                         audio.Play();
                         musicBox.SetActive(false);
+                        // Activate Box Outline & Icon
+                        musicBoxOutline.SetActive(true);
+                        musicBoxIcon.SetActive(true);
                     } else if(!musicGrabbed){
                         // SEARCH: MUSIC PICK UP 
                         audio.clip = dropItemSFX;
                         audio.volume = 2.5f;
                         audio.Play();
                         musicBox.SetActive(true);
+                        // De-Activate Box Outline & Icon
+                        musicBoxOutline.SetActive(false);
+                        musicBoxIcon.SetActive(false);
                         gameObject.transform.position = new Vector3(3f, 3f, -10f);
                     }
                     musicBuffer = true;
                 } else if(shovelGrabbed){
-                    Debug.Log("Can't hold more then 1 thing");
+                    //Debug.Log("Can't hold more then 1 thing");
                 }
             break;
         }
@@ -415,6 +553,7 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(time);
         if(blizzard){
             snowLvl += 1;
+           // afterBlizzard = true;
             StartCoroutine(AddSnow(3.0f));
         } else {
             StopCoroutine(AddSnow(0f));
@@ -491,5 +630,19 @@ public class PlayerMovement : MonoBehaviour
         }
         yield return new WaitForSeconds(time);
         musicPlaying = false;
+    }
+
+    public void handleSnowmanAnimation()
+    {
+        if (musicPlaying)
+        {
+            // Start Dancing
+            snowmanAnimator.SetBool("isDancing", true);
+        }
+        else
+        {
+            // Stop Dancing
+            snowmanAnimator.SetBool("isDancing", false);
+        }
     }
 }
