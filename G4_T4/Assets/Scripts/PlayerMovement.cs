@@ -484,8 +484,8 @@ public class PlayerMovement : MonoBehaviour
                     }
                     //text stuff
                     isInteractPressed = false;
-                    audio.clip = shovelingSFX;
-                    audio.Play();
+                    audio2.clip = shovelingSFX;
+                    audio2.Play();
                     //AudioSource.PlayOneShot(shoveling, 1f);
                 }
                 if(!shovelGrabbed && musicGrabbed && !musicPlaying && isInteractPressed){
@@ -535,9 +535,9 @@ public class PlayerMovement : MonoBehaviour
                     shovelGrabbed = !shovelGrabbed;
                     if(shovelGrabbed){
                         // SEARCH: SHOVEL DROP 
-                        audio.clip = grabShovelSFX;
-                        audio.volume = 2.5f;
-                        audio.Play();
+                        audio2.clip = grabShovelSFX;
+                        audio2.volume = 2.5f;
+                        audio2.Play();
                         shovel.SetActive(false);
                         // Activate Shovel Outline & Icon
                         shovelOutline.SetActive(true);
@@ -550,9 +550,9 @@ public class PlayerMovement : MonoBehaviour
                         shovelOutline.SetActive(false);
                         shovelIcon.SetActive(false);
                         gameObject.transform.position = new Vector3(-11f, 3f, -32);
-                        audio.clip = dropItemSFX;
-                        audio.volume = 2.5f;
-                        audio.Play();
+                        audio2.clip = dropItemSFX;
+                        audio2.volume = 2.5f;
+                        audio2.Play();
                     }
                     shovelBuffer = true;
                 } else if(musicGrabbed){
@@ -564,19 +564,19 @@ public class PlayerMovement : MonoBehaviour
                     musicGrabbed = !musicGrabbed;
                     if(musicGrabbed){
                         // SEARCH: MUSIC DROP 
-                        audio.clip = grabMusicBoxSFX;
+                        audio2.clip = grabMusicBoxSFX;
                      
-                        audio.volume = 2.5f;
-                        audio.Play();
+                        audio2.volume = 2.5f;
+                        audio2.Play();
                         musicBox.SetActive(false);
                         // Activate Box Outline & Icon
                         musicBoxOutline.SetActive(true);
                         musicBoxIcon.SetActive(true);
                     } else if(!musicGrabbed){
                         // SEARCH: MUSIC PICK UP 
-                        audio.clip = dropItemSFX;
-                        audio.volume = 2.5f;
-                        audio.Play();
+                        audio2.clip = dropItemSFX;
+                        audio2.volume = 2.5f;
+                        audio2.Play();
                         musicBox.SetActive(true);
                         // De-Activate Box Outline & Icon
                         musicBoxOutline.SetActive(false);
